@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "MainMenuScene.h"
 
 USING_NS_CC;
 
@@ -37,8 +37,67 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+    /** IMPLEMENT MULTI RESOLUTION SUPPORT */
+    auto fileUtils = FileUtils::getInstance();
+    auto screenSize = glview->getFrameSize();
+    std::vector<std::string> resDirOrders;
+
+    if( 2048 == screenSize.width || 2048 == screenSize.height )
+    {
+    	resDirOrders.push_back("ipadhd");
+    	resDirOrders.push_back("ipad");
+    	resDirOrders.push_back("iphonehd5");
+    	resDirOrders.push_back("iphonehd");
+    	resDirOrders.push_back("iphone");
+
+    	glview->setDesignResolutionSize(1536, 2048, ResolutionPolicy::NO_BORDER);
+    }
+    else if( 1024 == screenSize.width || 1024 == screenSize.height)
+    {
+    	resDirOrders.push_back("ipad");
+    	resDirOrders.push_back("iphonehd5");
+    	resDirOrders.push_back("iphonehd");
+    	resDirOrders.push_back("iphone");
+
+    	glview->setDesignResolutionSize(768, 1024, ResolutionPolicy::NO_BORDER);
+    }
+    else if( 1136 == screenSize.width || 1136 == screenSize.height)
+    {
+    	resDirOrders.push_back("iphonehd5");
+    	resDirOrders.push_back("iphonehd");
+    	resDirOrders.push_back("iphone");
+
+    	glview->setDesignResolutionSize(640, 1136, ResolutionPolicy::NO_BORDER);
+    }
+    else if( 960 == screenSize.width || 960 == screenSize.height)
+    {
+    	resDirOrders.push_back("iphonehd");
+    	resDirOrders.push_back("iphone");
+
+    	glview->setDesignResolutionSize(640, 960, ResolutionPolicy::NO_BORDER);
+    }
+    else
+    {
+    	if( 1080 < screenSize.width)
+    	{
+    		resDirOrders.push_back("iphonehd");
+    		resDirOrders.push_back("iphone");
+
+    		glview->setDesignResolutionSize(640, 960, ResolutionPolicy::NO_BORDER);
+    	}
+    	else
+    	{
+    		resDirOrders.push_back("iphone");
+
+    		glview->setDesignResolutionSize(320, 480, ResolutionPolicy::NO_BORDER);
+    	}
+    }
+
+    fileUtils->setSearchPaths(resDirOrders);
+    /** END IMPLEMENT */
+
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = MainMenu::createScene();
 
     // run
     director->runWithScene(scene);
