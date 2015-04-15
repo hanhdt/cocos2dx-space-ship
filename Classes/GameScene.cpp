@@ -1,17 +1,14 @@
-#include "MainMenuScene.h"
 #include "GameScene.h"
 
 USING_NS_CC;
 
-Scene* MainMenu::createScene()
+Scene* GameScreen::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-//    scene->getPhysicsWorld()->setDebugDrawMask( PhysicsWorld::DEBUGDRAW_ALL );
     
     // 'layer' is an autorelease object
-    auto layer = MainMenu::create();
-//    layer->SetPhysicsWorld( scene->getPhysicsWorld() );
+    auto layer = GameScreen::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -21,7 +18,7 @@ Scene* MainMenu::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool MainMenu::init()
+bool GameScreen::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -34,12 +31,5 @@ bool MainMenu::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     return true;
-}
-
-void MainMenu::goToGameScene(cocos2d::Ref *pSender)
-{
-	auto scene = GameScreen::createScene();
-
-	Director::getInstance()->replaceScene(scene);
 }
 
